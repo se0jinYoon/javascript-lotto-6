@@ -4,6 +4,7 @@ import { check } from 'app';
 class App {
   constructor() {
     this.PURCHASE_AMOUNT = 0;
+    this.LOTTO_DUMP = [];
   }
 
   async play() {}
@@ -31,6 +32,14 @@ class App {
       throw new Error('[ERROR]1000단위로 입력해주세요');
     }
   }
+
+  // 로또 번호 생성
+  generateLottoDump() {
+    const LOTTO_NUMBERS = Random.pickUniqueNumbersInRange(1, 45, 6);
+    this.LOTTO_DUMP.push(LOTTO_NUMBERS.sort((a,b) => a-b));
+  }
+  
+
 }
 
 export default App;
