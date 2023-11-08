@@ -33,12 +33,24 @@ class App {
     }
   }
 
-  // 로또 번호 생성
+  // 로또 번호 생성 메소드
   generateLottoDump() {
     const LOTTO_NUMBERS = Random.pickUniqueNumbersInRange(1, 45, 6);
     this.LOTTO_DUMP.push(LOTTO_NUMBERS.sort((a,b) => a-b));
   }
-  
+
+  // 구입 금액만큼 로또 번호 생성
+  purchaseLottoList() {
+    const LOTTO_AMOUNT = this.PURCHASE_AMOUNT / 1000;
+    Console.print(`${LOTTO_AMOUNT}개를 구매했습니다.`);
+
+    for (let i = 0; i<LOTTO_AMOUNT; i++) {
+      this.generateLottoDump();
+    }
+    this.LOTTO_DUMP.forEach(lotto => {
+      Console.print(`[${lotto}]`);
+    })
+  }
 
 }
 
