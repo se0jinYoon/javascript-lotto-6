@@ -49,7 +49,7 @@ class App {
       this.generateLottoDump();
     }
     this.LOTTO_DUMP.forEach((lotto) => {
-      Console.print(`[${lotto}]`);
+      Console.print(`${lotto}`);
     });
   }
 
@@ -61,6 +61,8 @@ class App {
         const USER_LOTTO_ARR = USER_LOTTO_INPUT.split(',');
         this.checkUserLottoInput(USER_LOTTO_ARR);
         this.USER_LOTTO = USER_LOTTO_ARR.sort((a, b) => a - b);
+
+
         break;
       } catch (error) {
         Console.print(error.message);
