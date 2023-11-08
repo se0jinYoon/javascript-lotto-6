@@ -5,6 +5,7 @@ class App {
   constructor() {
     this.PURCHASE_AMOUNT = 0;
     this.LOTTO_DUMP = [];
+    this.USER_LOTTO = [];
   }
 
   async play() {}
@@ -36,7 +37,7 @@ class App {
   // 로또 번호 생성 메소드
   generateLottoDump() {
     const LOTTO_NUMBERS = Random.pickUniqueNumbersInRange(1, 45, 6);
-    this.LOTTO_DUMP.push(LOTTO_NUMBERS.sort((a,b) => a-b));
+    this.LOTTO_DUMP.push(LOTTO_NUMBERS.sort((a, b) => a - b));
   }
 
   // 구입 금액만큼 로또 번호 생성
@@ -44,15 +45,43 @@ class App {
     const LOTTO_AMOUNT = this.PURCHASE_AMOUNT / 1000;
     Console.print(`${LOTTO_AMOUNT}개를 구매했습니다.`);
 
-    for (let i = 0; i<LOTTO_AMOUNT; i++) {
+    for (let i = 0; i < LOTTO_AMOUNT; i++) {
       this.generateLottoDump();
     }
-    this.LOTTO_DUMP.forEach(lotto => {
+    this.LOTTO_DUMP.forEach((lotto) => {
       Console.print(`[${lotto}]`);
-    })
+    });
   }
 
+  // 사용자 로또 번호 입력받기
+  async userLottoInput() {
+    while (true) {
+      try {
+        const USER_LOTTO_INPUT = await Console.readLineAsync('당첨 번호를 입력해 주세요.');
+        const USER_LOTTO_ARR = USER_LOTTO_INPUT.split(',');
+        this.checkUserLottoInput(USER_LOTTO_ARR);
+        this.USER_LOTTO = USER_LOTTO_ARR.sort((a, b) => a - b);
+        break;
+      } catch (error) {
+        Console.print(error.message);
+      }
+    }
+  }
 
+  checkUserLottoInput(userLottoInput) {
+    if (userLottoInput.length !== 6) {
+      throw new Error('[ERROR] 6개의 중복되지 않은 숫자를 입력해주세요');
+    }
+    if (userLottoInput.some((num) => isNaN(num))) {
+      throw new Error('[ERROR] 1~45 사이의 숫자를 중복 없이 6개 입력해주세요');
+    }
+    if ([...new Set(userLottoInput)].length !== 6) {
+      throw new Error('[ERROR] 중복되지 않은 숫자를 입력해주세요');
+    }
+    if (userLottoInput.some((num) => num < 1 || num > 45)) {
+      throw new Error('[ERROR] 1~45 사이의 숫자를 입력해주세요');
+    }
+  }
 }
 
 export default App;
